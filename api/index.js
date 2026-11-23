@@ -58,7 +58,15 @@ export default async function handler(req, res) {
       return;
     }
 
-    Readable.fromWeb(response.body).pipe(res);
+    const stream = Readable.fromWeb(response.body);
+    stream.on("error", (err) => {
+      console.error("Stream error:", err);
+      if (!res.headersSent) {
+        res.statusCode = 500;
+      }
+      res.end();
+    });
+    stream.pipe(res);
   } catch (error) {
     console.error(error);
     res.statusCode = 500;

@@ -4,6 +4,7 @@
   "outputDirectory": "dist/client",
   "functions": {
     "api/index.js": {
+      "includeFiles": "dist/server/**",
       "maxDuration": 10
     }
   },
